@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>thymeleaf方法</title>
+<!-- 引入js前必须在application.properties配置spring.mvc.static-path-pattern=/static/**  路径 -->
+<!-- <script type="text/javascript" th:src="@{/static/js/test.js}"></script> -->
+
 </head>
 <body>
-
+	<div>
+		用户姓名：<input th:id="${user.name}" th:name="${user.name}" th:value="${user.name}"></input>
+		<br>
+		用户年龄：<input th:value="${user.age}"/>
+		<br>
+		用户生日：<input th:value="${#dates.format(user.birthday,'yyyy-MM-dd')}"/>
+	</div>
+	<br><br>
+	th:text和th:utext的区别
+	<br>
+		<span th:text="${user.desc}"/><br>
+		<span th:utext="${user.desc}">utext</span>
+	<br><br>
+	超链接
+	<br>
+	<a th:href="@{http://www.baidu.com}">百度</a>
+	<br><br>
+	表单
+	<br>
+	<form th:action="@{/postform}" th:object="${user}" th:method="post">
+	<input type="text" th:field="*{name}"/><br>
+	<input type="text" th:field="*{pwd}"/><br>
+	<input type="submit"/>
+	</form>
+	<br><br>
+	if用法：
+	<br>
+	<div th:if="${user.age} == 20">正青春
+	</div>
+	<div th:if="${user.age} gt 20">老鲜肉
+	</div>
+	<div th:if="${user.age} le 20">小鲜肉
+	</div>
+	<br><br>
+	select用法：
+	<br>
+	<select>
+		<option th:select="${user.name}==xiaoming">小明</option>
+		<option th:select="${user.name}==bee">蜜蜂</option>
+	</select><br>
+	<select>
+		<option th:select="${user.name} eq xiaoming">小明</option>
+		<option th:select="${user.name} eq bee">蜜蜂</option>
+	</select>
+	<br><br>
+	for用法：
+	<br>
+	<!-- <table>
+		<tr>
+			<th>姓名</th>
+			<th>年龄</th>
+			<th>备注</th>
+			<th>生日</th>
+		</tr>
+		<tr th:each="users:${userList}">
+			<td th:text="${users.name}"></td>
+			<td th:text="${users.age}"></td>
+			<td th:utext="${users.desc}"></td>
+			<td th:text="${#dates.format(users.birthday,'yyyy-MM-dd')}"></td>
+		</tr>
+	</table> -->
+	<br><br>
+	<div th:switch="${user.name}">
+		<p th:case="xiaoming">管理员</p>
+		<p th:case="111">111</p>
+		<p th:case="#{roles.admin}">王二小</p>
+	</div>
+	
 </body>
 </html>
